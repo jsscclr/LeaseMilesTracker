@@ -1,7 +1,19 @@
+<!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" href="css/bootstrap.min.css" />	
-		<link rel="stylesheet" href="css/bootstrap-responsive.min.css" />	
+		<meta charset="utf-8"/>
+		<title>Lease Mileage Tracker</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<link rel="stylesheet" href="css/bootstrap.css" />	
+		<link rel="stylesheet" href="css/bootstrap-responsive.css" />	
+		<style type="text/css">
+			input[type=number]::-webkit-inner-spin-button,
+			input[type=number]::-webkit-outer-spin-button {
+    			-webkit-appearance: none;
+    			margin: 0;
+			}
+			.center { text-align: center; }
+		</style>
 	</head>
 	<body>
 		<div class="container">
@@ -32,7 +44,22 @@
 				</div>
 			</div>
 
-			<button class="btn btn-primary">Record today's mileage</button>
+			<form>
+			<h3>New mileage record</h3>
+			<div class="row">
+				<div class="span6">
+					<input type="date" class="span3" value="2012-09-22" placeholder="Record date"/>
+					<input type="number" pattern="[0-9]*" class="span3" value="340" placeholder="Miles on date"/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="span6 center">
+					<button class="btn btn-primary">Record mileage</button>
+				</div>
+			</div>
+			</form>
+
+
 
 
 		</div>
