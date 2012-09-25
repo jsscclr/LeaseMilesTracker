@@ -49,7 +49,7 @@ function getDateRange(aroundDate, leaseInfo) {
 		var day = { day: (new Date(start + (i * ONE_DAY))).date() };
 		var diff = aroundDate - day.day;
 		day.type = diff == 0 ? 'current info' 
-			: diff > 0 ? 'past' : 'future';
+			: diff < 0 ? 'past' : 'future';
 		var onDay = estimateMilesOn(day.day, leaseInfo, estimate);
 		day.estimate = onDay;
 		stack.push(day);
