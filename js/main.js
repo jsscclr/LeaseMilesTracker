@@ -8,6 +8,19 @@ Date.prototype.date = function() {
 	return d;
 }
 
+Date.uParse = function(stringDate) {
+	// stringDate would be something like '2012-10-01'
+	// but this is in locale format so in CDT would be '2012-09-30 19:00'
+	var d = new Date(stringDate); 
+	return new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+}
+
+function getParameterByName(name) {
+    var match = RegExp('[?&]' + name + '=([^&]*)')
+                    .exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+
 function estimateMiles(leaseLengthMonths, milesPerYear) {
 	var milesPerLease = leaseLengthMonths / 12 * milesPerYear;
 	return {
@@ -17,12 +30,6 @@ function estimateMiles(leaseLengthMonths, milesPerYear) {
 		perWeek: milesPerYear / 52,
 		perDay: milesPerYear / 365,
 	};
-}
-
-var LeaseInfo = {
-	leaseStart: new Date(2012, 8, 8),
-	leaseLength: 36,
-	milesPerYear: 12000,
 }
 
 function estimateMilesOn(aDate, leaseInfo, estimatedMiles) {
@@ -57,3 +64,34 @@ function getDateRange(aroundDate, leaseInfo) {
 
 	return stack;
 }
+
+
+var LeaseInfo = {
+	leaseStart: new Date(2012, 8, 8),
+	leaseLength: 36,
+	milesPerYear: 12000,
+	milesPerYearShort: '12k',
+};
+
+(function (leaseObject, leaseStartParam, leaseLengthParam, milesParam) {
+	var date = getParameterByName(leaseStartParam);
+	if (date) {
+		leaseObject.leaseStart = Date.uParse(date);
+	}
+	var length = getParameterByName(leaseLengthParam);
+	if (length) {
+		leaseObject.leaseLength = parseInt(length, 10);
+	}
+	var miles = parseInt(getParameterByName(milesParam));
+	if (miles) {
+		if (miles < 1000) {
+			leaseObject.milesPerYear = miles * 1000;
+			leaseObject.milesPerYearShort = miles + 'k';
+		} else {
+			leaseObject.milesPerYear = miles;
+			leaseObject.milesPerYearShort = (miles % 1000) + 'k';
+		}
+	}
+})(LeaseInfo, 'd', 'l', 'm');
+
+

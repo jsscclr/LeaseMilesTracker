@@ -25,6 +25,9 @@
 		function hideAddressBar() {
 			window.scrollTo(0, 1);
 		}
+		function w(what) {
+			document.write(what);
+		}
 		</script>
 		<script src="js/main.js"></script>
 	</head>
@@ -32,9 +35,14 @@
 		<div class="container">
 
 			<h1>
-				<span id="leaseMonths">36</span> 
-				@ <span id="milesPerYear">12k</span> lease
-				<small>started on <span id="startedOn">9/8/2012</span></small>
+				<span id="leaseMonths"><script type="text/javascript">
+				w(LeaseInfo.leaseLength);
+				</script></span> 
+				@ <span id="milesPerYear"><script type="text/javascript">
+				w(LeaseInfo.milesPerYearShort);
+				</script></span> lease
+				<small>started on <span id="startedOn"><script type="text/javascript">
+				w(LeaseInfo.leaseStart.toDateString());</script></span></small>
 			</h1>
 
 			<table class="table">
@@ -47,7 +55,8 @@
 				</thead>
 				<tbody>
 				<script type="text/javascript">
-					var today = (new Date()).date();
+					var targetDate = getParameterByName('t');
+					var today = targetDate ? Date.uParse(targetDate).date() : (new Date()).date();
 					var miles = getDateRange(today, LeaseInfo);
 					miles.forEach(function(m) {
 						document.writeln('<tr class="' + m.type + '">');
