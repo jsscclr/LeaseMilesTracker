@@ -1,6 +1,4 @@
-var ONE_DAY = 1000 * 60 * 60 * 24;
-
-
+var UNITS_AROUND = 2;
 /*
 Date.uParse = function(stringDate) {
 	if (!stringDate) {
@@ -53,7 +51,7 @@ function estimateMilesOn(aDate, leaseInfo, estimatedMiles) {
 
 function getDayRange(aroundDate, leaseInfo) {
 	var center = moment(aroundDate).startOf('day'),
-	    start = center.clone().subtract('days', 2),
+	    start = center.clone().subtract('days', UNITS_AROUND),
 	    leaseStart = moment(leaseInfo.leaseStart);
 	if (start.diff(leaseStart, 'days') < 0) {
 		start = leaseStart
@@ -61,7 +59,7 @@ function getDayRange(aroundDate, leaseInfo) {
 	// TODO: also detect lease end.
 
 	var stack = [], estimate = estimateMiles(leaseInfo.leaseLength, leaseInfo.milesPerYear);
-	for(var i = 0; i < 5; i++) {
+	for(var i = 0; i < (2 * UNITS_AROUND + 1); i++) {
 		var day = { day: start.clone().add('days', i) }
 		var diff = center.diff(day.day, 'days');
 		day.type = diff == 0 ? 'current info' 
@@ -76,6 +74,26 @@ function getDayRange(aroundDate, leaseInfo) {
 
 
 function getMonthRange(aroundDate, leaseInfo) {
+	var center = moment(aroundDate),
+		start = center.clone().subtract('months', 2).endOf('month'),
+		leaseStart = moment(leaseInfo.leaseStart);
+	if(start.diff(leaseStart, 'months') < 0) {
+		start = leaseStart
+	}
+	// TODO: also detect lease end.
+
+	var stack = [], estimate = estimateMiles(leaseInfo.leaseLength, leaseInfo.milesPerYear);
+	for(var i = 0; i < (2 * UNITS_AROUND + 1); i++) {
+		var day = { day: start.clone().add('months', i) }
+		var diff = center.diff(day.day, 'months');
+		day.type = diff == 0 ? 'current info' 
+			: diff < 0 ? 'past' : 'future';
+		var onDay = estimateMilesOn(day.day, leaseInfo, estimate);
+		day.estimate = onDay;
+		stack.push(day);
+	}
+
+	return stack;
 }
 
 
