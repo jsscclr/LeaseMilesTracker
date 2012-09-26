@@ -2,9 +2,9 @@
 <html>
 	<head>
 		<meta charset="utf-8"/>
-		<title>Lease Mileage Tracker</title>
+		<title>Daily Miles - Lease Mileage Tracker</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-		<link rel="stylesheet" href="css/simple/bootstrap.min.css" />	
+		<link rel="stylesheet" href="css/simple/bootstrap.min.css" />
 		<style type="text/css">
 			input[type=number]::-webkit-inner-spin-button,
 			input[type=number]::-webkit-outer-spin-button {
@@ -29,6 +29,7 @@
 			document.write(what);
 		}
 		</script>
+		<script src="js/moment.min.js"></script>
 		<script src="js/main.js"></script>
 	</head>
 	<body>
@@ -42,7 +43,7 @@
 				w(LeaseInfo.milesPerYearShort);
 				</script></span> lease
 				<small>started on <span id="startedOn"><script type="text/javascript">
-				w(LeaseInfo.leaseStart.toDateString());</script></span></small>
+				w(LeaseInfo.leaseStart.toDate().toDateString());</script></span></small>
 			</h1>
 
 			<table class="table">
@@ -56,11 +57,11 @@
 				<tbody>
 				<script type="text/javascript">
 					var targetDate = getParameterByName('t');
-					var today = targetDate ? Date.uParse(targetDate).date() : (new Date()).date();
-					var miles = getDateRange(today, LeaseInfo);
+					var today = targetDate ? moment(targetDate).startOf('day') : moment().startOf('day')
+					var miles = getDayRange(today, LeaseInfo);
 					miles.forEach(function(m) {
 						document.writeln('<tr class="' + m.type + '">');
-						document.writeln('<td>' + (m.day.getMonth() + 1) + '/' + m.day.getDate() + '</td>');
+						document.writeln('<td>' + m.day.format('LL') + '</td>');
 						document.writeln('<td>' + Math.floor(m.estimate) + ' miles</td>');
 						document.writeln('</tr>');
 					})

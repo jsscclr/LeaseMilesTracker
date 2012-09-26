@@ -1,13 +1,7 @@
 var ONE_DAY = 1000 * 60 * 60 * 24;
 
-Date.prototype.date = function() {
-	var d = this;
-	['Hours', 'Minutes', 'Seconds', 'Milliseconds'].forEach(function(w) {
-		d['set' + w](0);
-	})
-	return d;
-}
 
+/*
 Date.uParse = function(stringDate) {
 	if (!stringDate) {
 		// alert('invalid input');
@@ -25,9 +19,11 @@ Date.uParse = function(stringDate) {
 		// alert('good date: ' + stringDate + ': ' + d);
 		// stringDate would be something like '2012-10-01'
 		// but this is in locale format so in CDT would be '2012-09-30 19:00'
+		d = new Date(d);
 		return new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
 	}
 }
+*/
 
 function getParameterByName(name) {
     var match = RegExp('[?&]' + name + '=([^&]*)')
@@ -47,28 +43,27 @@ function estimateMiles(leaseLengthMonths, milesPerYear) {
 }
 
 function estimateMilesOn(aDate, leaseInfo, estimatedMiles) {
-	var aDate = aDate.date(),
-	    today = (new Date()).date();
-	
+	var leaseStart = moment(leaseInfo.leaseStart)
 	var estimate = estimatedMiles || estimateMiles(LeaseInfo.leaseLength, LeaseInfo.milesPerYear)
-	var days = Math.floor((aDate - leaseInfo.leaseStart) / ONE_DAY);
+	var days = aDate.diff(leaseStart, 'days')
 
 	var expected = estimate.perDay * days;
 	return expected;
 }
 
-function getDateRange(aroundDate, leaseInfo) {
-	var center = aroundDate || (new Date()).date(),
-	start = center - (2 * ONE_DAY);
-	if (start < leaseInfo.leaseStart) {
-		start = leaseInfo.leaseStart;
+function getDayRange(aroundDate, leaseInfo) {
+	var center = moment(aroundDate).startOf('day'),
+	    start = center.clone().subtract('days', 2),
+	    leaseStart = moment(leaseInfo.leaseStart);
+	if (start.diff(leaseStart, 'days') < 0) {
+		start = leaseStart
 	}
 	// TODO: also detect lease end.
 
-	var stack = [], estimate = estimateMiles(leaseInfo.leaseStart, leaseInfo.milesPerYear);
+	var stack = [], estimate = estimateMiles(leaseInfo.leaseLength, leaseInfo.milesPerYear);
 	for(var i = 0; i < 5; i++) {
-		var day = { day: (new Date(start + (i * ONE_DAY))).date() };
-		var diff = aroundDate - day.day;
+		var day = { day: start.clone().add('days', i) }
+		var diff = center.diff(day.day, 'days');
 		day.type = diff == 0 ? 'current info' 
 			: diff < 0 ? 'past' : 'future';
 		var onDay = estimateMilesOn(day.day, leaseInfo, estimate);
@@ -80,8 +75,12 @@ function getDateRange(aroundDate, leaseInfo) {
 }
 
 
+function getMonthRange(aroundDate, leaseInfo) {
+}
+
+
 var LeaseInfo = {
-	leaseStart: new Date(2012, 8, 8),
+	leaseStart: moment('2012-09-08'),
 	leaseLength: 36,
 	milesPerYear: 12000,
 	milesPerYearShort: '12k',
@@ -90,7 +89,7 @@ var LeaseInfo = {
 (function (leaseObject, leaseStartParam, leaseLengthParam, milesParam) {
 	var date = getParameterByName(leaseStartParam);
 	if (date) {
-		leaseObject.leaseStart = Date.uParse(date);
+		leaseObject.leaseStart = moment(date)
 	}
 	var length = getParameterByName(leaseLengthParam);
 	if (length) {
