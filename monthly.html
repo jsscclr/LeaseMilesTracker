@@ -58,7 +58,7 @@
 				<script type="text/javascript">
 					var targetDate = getParameterByName('t');
 					var today = targetDate ? moment(targetDate).startOf('day') : moment().startOf('day')
-					var miles = getMonthRange(today, LeaseInfo);
+					var miles = getMonthEndRange(today, LeaseInfo);
 					miles.forEach(function(m) {
 						document.writeln('<tr class="' + m.type + '">');
 						document.writeln('<td>' + m.day.format('LL') + '</td>');

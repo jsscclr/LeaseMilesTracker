@@ -96,6 +96,29 @@ function getMonthRange(aroundDate, leaseInfo) {
 	return stack;
 }
 
+function getMonthEndRange(aroundDate, leaseInfo) {
+	var center = moment(aroundDate),
+		start = center.clone().subtract('months', 2).endOf('month'),
+		leaseStart = moment(leaseInfo.leaseStart);
+	if(start.diff(leaseStart, 'months') < 0) {
+		start = leaseStart
+	}
+	// TODO: also detect lease end.
+	
+	var stack = [], estimate = estimateMiles(leaseInfo.leaseLength, leaseInfo.milesPerYear);
+	for(var i = 0; i < (2 * UNITS_AROUND + 1); i++) {
+		var day = { day: start.clone().add('months', i).endOf('month') }
+		var diff = center.diff(day.day, 'months');
+		day.type = diff == 0 ? 'current info' 
+			: diff < 0 ? 'past' : 'future';
+		var onDay = estimateMilesOn(day.day, leaseInfo, estimate);
+		day.estimate = onDay;
+		stack.push(day);
+	}
+
+	return stack;
+}
+
 
 var LeaseInfo = {
 	leaseStart: moment('2012-09-08'),
