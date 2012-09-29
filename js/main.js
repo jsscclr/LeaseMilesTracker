@@ -78,12 +78,32 @@ function buildForRange(opt) {
 	return stack;
 }
 
+function ranger(type) {
+	return {
+		d: getDayRange,
+		w: getWeeklyRange,
+		m: getMonthEndRange,
+		// me: getMonthEndRange,
+	}[type];
+}
+
+function nmap(type) {
+	return { 
+		d: 'Daily',
+		w: 'Weekly',
+		m: 'Monthly',
+	}[type];
+}
+
 function getDayRange(aroundDate, leaseInfo) {
 	return buildForRange({
 		unit: 'day',
 		aroundDate: aroundDate,
 		leaseInfo: leaseInfo,
 	})
+}
+
+function getWeeklyRange(aroundDate, leaseInfo) {
 }
 
 function getMonthRange(aroundDate, leaseInfo) {
@@ -131,6 +151,6 @@ var LeaseInfo = {
 			leaseObject.milesPerYearShort = (miles % 1000) + 'k';
 		}
 	}
-})(LeaseInfo, 'd', 'l', 'm');
+})(LeaseInfo, 's', 'l', 'm');
 
 
