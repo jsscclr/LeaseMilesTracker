@@ -29,7 +29,9 @@
 			document.write(what)
 		}
 		function g(where) {
-			document.location = where + '.html' + window.location.search
+			var newQS = window.location.search.replace(/t=./, '');
+			newQS += '&t=' + where;
+			document.location = newQS;
 		}
 		</script>
 		<script src="js/moment.min.js"></script>
@@ -72,7 +74,7 @@
 						miles = rangeF(today, LeaseInfo);
 					miles.forEach(function(m) {
 						document.writeln('<tr class="' + m.type + '">');
-						document.writeln('<td>' + m.day.format('LL') + '</td>');
+						document.writeln('<td>' + m.day.toDate().toDateString() + '</td>');
 						document.writeln('<td>' + Math.floor(m.estimate) + ' miles</td>');
 						document.writeln('</tr>');
 					})
@@ -90,6 +92,8 @@
 			</p>
 		</div>
 		<div class="row">
+			<p>&nbsp;</p>
+			<p>&nbsp;</p>
 			<p>&nbsp;</p>
 		</div>
 	</body>

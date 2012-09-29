@@ -53,7 +53,7 @@ function estimateMilesOn(aDate, leaseInfo, estimatedMiles) {
 function buildForRange(opt) {
 	var units = opt.unit + 's';
 	var center = moment(opt.aroundDate).startOf('day'),
-	    start = center.clone().subtract(units, UNITS_AROUND).endOf(opt.unit),
+	    start = center.clone().subtract(units, UNITS_AROUND), //.endOf(opt.unit),
 	    leaseStart = moment(opt.leaseInfo.leaseStart);
 	if (start.diff(leaseStart, units) < 0) {
 		start = leaseStart
@@ -104,6 +104,18 @@ function getDayRange(aroundDate, leaseInfo) {
 }
 
 function getWeeklyRange(aroundDate, leaseInfo) {
+	return buildForRange({
+		unit: 'week',
+		aroundDate: aroundDate,
+		leaseInfo: leaseInfo,
+		dayStrategy: function(start, incr) {
+			var end = start.clone().add('weeks', incr)
+			var wd = end.toDate().getDay();
+			end.add('days', 6 - wd);
+			console.log('for %s + %d end is %s (wd=%d)', start.toString(), incr, end.toString(), wd);
+			return end;
+		}
+	})
 }
 
 function getMonthRange(aroundDate, leaseInfo) {
