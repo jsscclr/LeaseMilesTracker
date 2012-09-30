@@ -5,7 +5,7 @@
 		<title>Lease Mileage Tracker</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<link rel="stylesheet" href="css/simple/bootstrap.min.css" />	
-		<link rel="stylesheet" href="css/main.css" />	
+		<link rel="stylesheet" href="css/main.min.css" />	
 	</head>
 	<body>
 		<div class="container">
@@ -68,15 +68,16 @@
 			x.setAttribute('type', 'date')
 			if (x.type != 'date') {
 				console.log('loading datepicker');
-				w('<link rel="stylesheet" href="css/bootstrap-dropdown.css" />');
-				w('<link rel="stylesheet" href="css/datepicker.css" />');
+				w('<link rel="stylesheet" href="css/bootstrap-dropdown.min.css" />');
+				w('<link rel="stylesheet" href="css/datepicker.min.css" />');
 				w('<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></' + 'script>');
-				w('<script src="js/bootstrap-datepicker.js"></' + 'script>');
+				w('<script src="js/bootstrap-datepicker.min.js"></' + 'script>');
 				w('<script type="text/javascript">$(document).ready(function() { $("input[type=date]").datepicker() })</' + 'script>');
 			}
 		})();
 		
 		
 		</script>
+
 	</body>
 </html>
