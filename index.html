@@ -5,28 +5,7 @@
 		<title>Lease Mileage Tracker</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<link rel="stylesheet" href="css/simple/bootstrap.min.css" />	
-		<style type="text/css">
-			input[type=number]::-webkit-inner-spin-button,
-			input[type=number]::-webkit-outer-spin-button {
-    			-webkit-appearance: none;
-    			margin: 0;
-			}
-			.center { text-align: center; }
-			.past { opacity: 0.25 }
-			.future { opacity: 0.5 }
-		
-		</style>
-		<script type="text/javascript">
-		if (navigator.userAgent.indexOf('iPhone') != -1) {
-			addEventListener('load', function() {
-				setTimeout(hideAddressBar, 10);
-				}, false);
-		}
-		function hideAddressBar() {
-			window.scrollTo(0, 1);
-		}
-		</script>
-		<script src="js/main.js"></script>
+		<link rel="stylesheet" href="css/main.css" />	
 	</head>
 	<body>
 		<div class="container">
@@ -56,7 +35,7 @@
 
 				<div class="control-group">
 					<label for="d" class="control-label">Lease start date</label>
-					<div class="controls"><input id="d" name="d" type="date" class="input-smalll" /></div>
+					<div class="controls"><input id="d" name="d" type="date" class="input-smalll" data-date-format="yyyy-mm-dd" /></div>
 				</div>
 
 
@@ -68,5 +47,36 @@
 				
 
 		</div>
+		<div class="row">
+			<p>&nbsp;</p>
+			<p>&nbsp;</p>
+			<p>&nbsp;</p>
+		</div>
+		<script type="text/javascript">
+		if (navigator.userAgent.indexOf('iPhone') != -1) {
+			addEventListener('load', function() {
+				setTimeout(function() { window.scrollTo(0, 1) }, 100) 
+			}, false);
+		}
+		(function() {
+			var d = new Date(),
+				m = d.getMonth() + 1,
+				ds = d.getFullYear() + '-' + (m < 10 ? '0' + m : m) + '-' + d.getDate();
+			document.getElementById('d').value = ds;
+			var x = document.createElement('input')
+			var w = function(what) { document.writeln(what) }
+			x.setAttribute('type', 'date')
+			if (x.type != 'date') {
+				console.log('loading datepicker');
+				w('<link rel="stylesheet" href="css/bootstrap-dropdown.css" />');
+				w('<link rel="stylesheet" href="css/datepicker.css" />');
+				w('<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></' + 'script>');
+				w('<script src="js/bootstrap-datepicker.js"></' + 'script>');
+				w('<script type="text/javascript">$(document).ready(function() { $("input[type=date]").datepicker() })</' + 'script>');
+			}
+		})();
+		
+		
+		</script>
 	</body>
 </html>

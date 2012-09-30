@@ -5,41 +5,13 @@
 		<title>Lease Mileage Tracker</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<link rel="stylesheet" href="css/simple/bootstrap.min.css" />
-		<style type="text/css">
-			input[type=number]::-webkit-inner-spin-button,
-			input[type=number]::-webkit-outer-spin-button {
-    			-webkit-appearance: none;
-    			margin: 0;
-			}
-			.center { text-align: center; }
-			.past { opacity: 0.25 }
-			.future {  font-style: italic }
-		
-		</style>
-		<script type="text/javascript">
-		if (navigator.userAgent.indexOf('iPhone') != -1) {
-			addEventListener('load', function() {
-				setTimeout(hideAddressBar, 100)
-				}, false)
-		}
-		function hideAddressBar() {
-			window.scrollTo(0, 1)
-		}
-		function w(what) {
-			document.write(what)
-		}
-		function g(where) {
-			var newQS = window.location.search.replace(/t=./, '');
-			newQS += '&t=' + where;
-			document.location = newQS;
-		}
-		</script>
+		<link rel="stylesheet" href="css/main.css" />
 		<script src="js/moment.min.js"></script>
 		<script src="js/main.js"></script>
 		<script type="text/javascript">
 			var MODE = getParameterByName('t') || 'd',
 			NAME = nmap(MODE);
-			window.title = NAME + 'Miles - ' + window.title;
+			window.title = NAME + ' Miles - Lease Mileage Tracker'
 		</script>
 	</head>
 	<body>
@@ -73,10 +45,10 @@
 						rangeF = ranger(MODE),
 						miles = rangeF(today, LeaseInfo);
 					miles.forEach(function(m) {
-						document.writeln('<tr class="' + m.type + '">');
-						document.writeln('<td>' + m.day.toDate().toDateString() + '</td>');
-						document.writeln('<td>' + Math.floor(m.estimate) + ' miles</td>');
-						document.writeln('</tr>');
+						w('<tr class="' + m.type + '">');
+						w('<td>' + m.day.toDate().toDateString() + '</td>');
+						w('<td>' + Math.floor(m.estimate) + ' miles</td>');
+						w('</tr>');
 					})
 				</script>
 				</tbody>
@@ -96,5 +68,12 @@
 			<p>&nbsp;</p>
 			<p>&nbsp;</p>
 		</div>
+		<script type="text/javascript">
+		if (navigator.userAgent.indexOf('iPhone') != -1) {
+			addEventListener('load', function() {
+				setTimeout(hideAddressBar, 100);
+				}, false);
+		}
+		</script>
 	</body>
 </html>

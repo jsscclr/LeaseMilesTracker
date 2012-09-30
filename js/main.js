@@ -1,32 +1,22 @@
 var UNITS_AROUND = 2;
-/*
-Date.uParse = function(stringDate) {
-	if (!stringDate) {
-		// alert('invalid input');
-		return new Date();
-	}
-
-	// on iOS 5 Date.parse('2012-10-01') == NaN
-	var d = Date.parse(stringDate);
-	if (isNaN(d)) {
-		// alert('isNaN');
-		// assuming ISO format
-		var dp = stringDate.split('-');
-		return new Date(parseInt(dp[0], 10), parseInt(dp[1], 10)-1, parseInt(dp[2], 10));
-	} else {
-		// alert('good date: ' + stringDate + ': ' + d);
-		// stringDate would be something like '2012-10-01'
-		// but this is in locale format so in CDT would be '2012-09-30 19:00'
-		d = new Date(d);
-		return new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
-	}
+function hideAddressBar() {
+	window.scrollTo(0, 1);
 }
-*/
+
+function w(what) {
+	document.write(what)
+}
 
 function getParameterByName(name) {
     var match = RegExp('[?&]' + name + '=([^&]*)')
                     .exec(window.location.search);
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+
+function g(where) {
+	var newQS = window.location.search.replace(/t=./, '');
+	newQS += '&t=' + where;
+	document.location = newQS;
 }
 
 function estimateMiles(leaseLengthMonths, milesPerYear) {
