@@ -54,6 +54,7 @@ clean:
 help:
 	@egrep "^# target:" Makefile
 
-push :
+# target: push - minify and publish website
+push : minify
 	# rsync -avze ssh --dry-run --exclude=".*" --exclude=".*/" --delete ./ dreamhost:~/lease.philipmat.com/
 	rsync -avze ssh --exclude=".*" --exclude=".*/" --delete ./ dreamhost:~/lease.philipmat.com/
