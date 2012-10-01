@@ -14,15 +14,17 @@ JS_FILES = $(filter-out %.min.js,$(wildcard \
 ))
 
 # Commands
-JS_TMP=js.js
 CSS_MINIFIER = curl -X POST -s --data-urlencode "input@CSS_TMP" http://www.cssminifier.com/raw
 JS_MINIFIER = curl -s -X POST --data-urlencode "js_code@JS_TMP" http://marijnhaverbeke.nl//uglifyjs 
+# the closure-compiler seems to crash at random points 
+# without any error messages
 #JS_MINIFIER = curl -v \
-				#-d compilation_level=SIMPLE_OPTIMIZATIONS \
-				#-d output_format=text \
-				#-d output_info=compiled_code \
-				#--data-urlencode "js_code@JS_TMP" \
-				#http://closure-compiler.appspot.com/compile
+				-d compilation_level=SIMPLE_OPTIMIZATIONS \
+				-d output_format=text \
+				-d output_info=compiled_code \
+				--data-urlencode "js_code@JS_TMP" \
+				http://closure-compiler.appspot.com/compile
+
 CSS_MINIFIED = $(CSS_FILES:.css=.min.css)
 JS_MINIFIED = $(JS_FILES:.js=.min.js)
 
@@ -42,7 +44,6 @@ minify-js: $(JS_FILES) $(JS_MINIFIED)
 
 %.min.js: %.js
 	@echo '  Minifying $< ==> $@'
-	#$(subst JS_TMP,$(<),$(JS_MINIFIER)) > $@
 	$(subst JS_TMP,$(<),$(JS_MINIFIER)) > $@
 	@echo
 
