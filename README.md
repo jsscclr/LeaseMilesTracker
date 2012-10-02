@@ -3,6 +3,7 @@ LeaseMilesTracker
 
 Track your vehicle miles to make sure you stay within the terms of your lease.
 
+See it in action as http://lease.philipmat.com
 
 Uses
 ====
