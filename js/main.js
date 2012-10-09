@@ -134,7 +134,37 @@ var LeaseInfo = {
 	milesPerYearShort: '12k',
 };
 
-(function (leaseObject, leaseStartParam, leaseLengthParam, milesParam) {
+function writeLeaseTable() {
+	var d = document,
+	tbody = d.querySelector('#miles tbody'),
+	ce = function(el) { return d.createElement(el) },
+	cn = function(el,txt) { var e = ce(el), x = d.createTextNode(txt); e.appendChild(x); return e }
+	targetDate = getParameterByName('@');
+	var paintItBlack = function() {
+		today = targetDate ? moment(targetDate).startOf('day') : moment().startOf('day'),
+		rangeF = ranger(MODE),
+		miles = rangeF(today, LeaseInfo);
+		// first remove all children
+		while(tbody.firstChild) {
+			tbody.removeChild(tbody.firstChild);
+		}
+		miles.forEach(function(m) {
+
+			var tr = ce('tr'),
+			td = ce('td'),
+			attr = d.createAttribute('class');
+			attr.value = m.type;
+			tr.setAttributeNode(attr);
+			txt = d.createTextNode();
+			tr.appendChild(cn('td', m.day.toDate().toDateString()));
+			tr.appendChild(cn('td', Math.floor(m.estimate) + ' miles'));
+			tbody.appendChild(tr);
+		})
+	}
+	return paintItBlack;
+}
+
+;(function (leaseObject, leaseStartParam, leaseLengthParam, milesParam) {
 	var date = getParameterByName(leaseStartParam);
 	if (date) {
 		leaseObject.leaseStart = moment(date)
