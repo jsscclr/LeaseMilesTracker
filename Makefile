@@ -15,7 +15,7 @@ JS_FILES = $(filter-out %.min.js,$(wildcard \
 
 # Commands
 CSS_MINIFIER = curl -X POST -s --data-urlencode "input@CSS_TMP" http://www.cssminifier.com/raw
-JS_MINIFIER = curl -s -X POST --data-urlencode "js_code@JS_TMP" http://marijnhaverbeke.nl//uglifyjs 
+JS_MINIFIER = curl -s -X POST --data-urlencode "js_code@JS_TMP" http://marijnhaverbeke.nl/uglifyjs 
 # the closure-compiler seems to crash at random points 
 # without any error messages
 #JS_MINIFIER = curl -v \
