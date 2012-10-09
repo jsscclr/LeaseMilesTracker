@@ -28,7 +28,7 @@
 				w(LeaseInfo.leaseStart.toDate().toDateString());</script></span></small>
 			</h1>
 
-			<table class="table">
+			<table id="miles" class="table">
 				<caption><script type="text/javascript">
 						w(NAME)
 				</script> estimates</caption>
@@ -39,18 +39,6 @@
 					</tr>
 				</thead>
 				<tbody>
-				<script type="text/javascript">
-					var targetDate = getParameterByName('@'),
-						today = targetDate ? moment(targetDate).startOf('day') : moment().startOf('day'),
-						rangeF = ranger(MODE),
-						miles = rangeF(today, LeaseInfo);
-					miles.forEach(function(m) {
-						w('<tr class="' + m.type + '">');
-						w('<td>' + m.day.toDate().toDateString() + '</td>');
-						w('<td>' + Math.floor(m.estimate) + ' miles</td>');
-						w('</tr>');
-					})
-				</script>
 				</tbody>
 			</table>
 
@@ -88,6 +76,29 @@
 				setTimeout(hideAddressBar, 100);
 				}, false);
 		}
+		(function() {
+			var d = document,
+				tbody = d.querySelector('#miles tbody'),
+				ce = function(el) { return d.createElement(el) },
+				cn = function(el,txt) { var e = ce(el), x = d.createTextNode(txt); e.appendChild(x); return e }
+				targetDate = getParameterByName('@'),
+				today = targetDate ? moment(targetDate).startOf('day') : moment().startOf('day'),
+				rangeF = ranger(MODE),
+				miles = rangeF(today, LeaseInfo);
+			miles.forEach(function(m) {
+
+				var tr = ce('tr'),
+					td = ce('td'),
+					attr = d.createAttribute('class');
+				attr.value = m.type;
+				tr.setAttributeNode(attr);
+				txt = d.createTextNode();
+				tr.appendChild(cn('td', m.day.toDate().toDateString()));
+				tr.appendChild(cn('td', Math.floor(m.estimate) + ' miles'));
+				tbody.appendChild(tr);
+			})
+		})();
+
 		</script>
 	</body>
 </html>
