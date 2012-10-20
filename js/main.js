@@ -134,6 +134,7 @@ var LeaseInfo = {
 	milesPerYearShort: '12k',
 };
 
+var TODAY;
 function writeLeaseTable() {
 	var d = document,
 	tbody = d.querySelector('#miles tbody'),
@@ -142,6 +143,7 @@ function writeLeaseTable() {
 	targetDate = getParameterByName('@');
 	var paintItBlack = function() {
 		today = targetDate ? moment(targetDate).startOf('day') : moment().startOf('day'),
+		console.log('painting for ', today);
 		rangeF = ranger(MODE),
 		miles = rangeF(today, LeaseInfo);
 		// first remove all children

@@ -44,7 +44,7 @@
 				<tfoot>
 					<tr>
 						<td colspan="2">
-							<a class="btn" href="javascript:writeLeaseTable()">&#8634;</a>
+							<a class="btn" href="javascript:(writeLeaseTable())()">&#8634;</a>
 						</td>
 					</tr>
 				</tfoot>
@@ -87,9 +87,8 @@
 		(function() {
 			var lease = writeLeaseTable();
 			lease();
-			setInterval(writeLeaseTable, 1000 * 60 * 60);
+			setInterval(lease, 1000 * 60 * 60);
 		})();
-
 		</script>
 	</body>
 </html>
