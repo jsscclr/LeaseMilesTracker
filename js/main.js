@@ -158,7 +158,6 @@ function writeLeaseTable() {
 			attr = d.createAttribute('class');
 			attr.value = m.type;
 			tr.setAttributeNode(attr);
-			txt = d.createTextNode();
 			tr.appendChild(cn('td', m.day.toDate().toDateString()));
 			tr.appendChild(cn('td', Math.floor(m.estimate) + ' miles'));
 			tbody.appendChild(tr);
@@ -186,6 +185,6 @@ function writeLeaseTable() {
 			leaseObject.milesPerYearShort = (miles % 1000) + 'k';
 		}
 	}
-})(LeaseInfo, 's', 'l', 'm');
+})(LeaseInfo, 'd', 'l', 'm');
 
 
