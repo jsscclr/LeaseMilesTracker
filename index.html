@@ -10,7 +10,6 @@
 </head>
 <body>
 <div class="container">
-
 	<legend>See Target Lease Miles by Date</legend>
 	<span class="help-block">Enter your lease details then bookmark the next page</span>
 	<form action="lease.html" method="GET" class="form-horizontal">
@@ -38,6 +37,10 @@
 		<div class="control-group">
 			<label for="d" class="control-label">Lease starts on</label>
 			<div class="controls"><input id="d" name="d" type="date" class="input-medium" data-date-format="yyyy-mm-dd" /></div>
+		</div>
+
+		<div class="control-group">
+			or <a href="javascript:demo()">see an example output</a>
 		</div>
 
 		<div class="form-actions">
@@ -90,7 +93,12 @@ if (navigator.userAgent.indexOf('iPhone') != -1) {
  }
  })();
 
-
+function demo() {
+ var d = new Date(),
+ 	 m = d.getMonth() + 1,
+ 	 ds = (d.getFullYear()-1) + '-' + (m < 10 ? '0' + m : m) + '-' + d.getDate();
+ document.location = 'lease.html?l=35&m=12&d=' + df;
+}
 </script>
 
 </body>
