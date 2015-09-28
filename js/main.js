@@ -16,6 +16,7 @@ function getParameterByName(name) {
 function g(where) {
 	var newQS = window.location.search.replace(/t=./, '');
 	newQS += '&t=' + where;
+	newQS = newQS.replace('&&', '&');
 	document.location = newQS;
 }
 
